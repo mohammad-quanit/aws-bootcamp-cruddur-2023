@@ -56,14 +56,16 @@ After setting up VSCode desktop from Gitpod succesfully below are the steps I've
 
 ### Configure AWS Cli on gitpod environment
 
-- Install AWS cli from this [link](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and ran below cmds
+<br />
+
+Install AWS cli from this [link](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and ran below cmds
 ```
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
 ```
 
-- Configure AWS env variables in gitpod environment using below cmds
+Configure AWS env variables in gitpod environment using below cmds
 ```
 gp env AWS_SECRET_ACCESS_KEY=*****
 gp env AWS_ACCESS_KEY_ID=*****
@@ -71,3 +73,16 @@ gp env AWS_DEFAULT_REGION=*****
 gp env AWS_ACCOUNT_ID=*****
 ```
 
+Verified my AWS configuration in gitpod using
+```
+$ aws sts get-caller-identity
+
+result: {
+  UserId: "*********",
+  Account: "********"
+  Arn: "arn:aws:iam::********:user/mquanit-u1"
+}
+```
+
+
+### Create Budget & Alarm to monitor my Spending
