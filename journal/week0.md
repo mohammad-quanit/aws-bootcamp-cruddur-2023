@@ -43,3 +43,31 @@ Some Notes that can help to design our app solution in a better way.
 
 # Practical Tasks
 
+Here's the practicals that I've performed for this assignment.
+
+- Created Gitpod Account and setup my workspace - [GitPod Workspace](https://mohammadqua-awsbootcamp-3mtwn1cehr4.ws-us87.gitpod.io/)
+- Created Github repository from ExamPro template and connected it with my gitpod workspace
+- Created account on student portal and update my details in user settings
+- Setup IAM user (mquanit-u1) on AWS IAM service as I've already an AWS account so didn't need to create another account
+- Setup MFA on root account and gave billing access to IAM as i need to monitor billing from my IAM user
+- Connect VSCode desktop to my gitpod workspace via SSH connection as I am more comnfortable working on desktop version
+
+After setting up VSCode desktop from Gitpod succesfully below are the steps I've followed,
+
+### Configure AWS Cli on gitpod environment
+
+- Install AWS cli from this [link](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and ran below cmds
+```
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+- Configure AWS env variables in gitpod environment using below cmds
+```
+gp env AWS_SECRET_ACCESS_KEY=*****
+gp env AWS_ACCESS_KEY_ID=*****
+gp env AWS_DEFAULT_REGION=*****
+gp env AWS_ACCOUNT_ID=*****
+```
+
