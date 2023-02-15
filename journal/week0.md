@@ -2,7 +2,7 @@
 <br />
 
 # Theoretical Tasks
-Before doing any practical work, I've my theoretical assignments first. 
+Before doing any practical work, I've documented my theoretical assignments first. 
 The things I've studied in theory after watching all the videos from Andrew, Chris, Margaret & Shala.
 
 <br />
