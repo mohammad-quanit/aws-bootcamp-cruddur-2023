@@ -45,7 +45,7 @@ Here's the logical and napkin diagram for cruddr application
 
 <br />
 
-![Logical Diagram](../_docs/assets/logical-diagram.png)
+![Logical Diagram](../_docs/assets/logical-diagram.jpeg)
 [Lucidchart Link](https://lucid.app/lucidchart/107716e7-8c87-4e91-9533-eec565b05b51/view) for Logical Digram
 
 
