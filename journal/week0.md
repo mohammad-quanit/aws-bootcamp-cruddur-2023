@@ -38,6 +38,17 @@ Some Notes that can help to design our app solution in a better way.
 - C4 Model
 - AWS wel architected framework & tool
 
+Here's the logical and napkin diagram for cruddr application
+
+![Napkin Diagram](../_docs/assets/logical-diagram.png)
+[Lucidchart Link](https://lucid.app/lucidchart/107716e7-8c87-4e91-9533-eec565b05b51/view) for Napkin Digram
+
+<br />
+
+![Logical Diagram](../_docs/assets/logical-diagram.png)
+[Lucidchart Link](https://lucid.app/lucidchart/107716e7-8c87-4e91-9533-eec565b05b51/view) for Logical Digram
+
+
 <br />
 <br />
 
@@ -86,3 +97,68 @@ result: {
 
 
 ### Create Budget & Alarm to monitor my Spending
+
+I've created 2 budgets one for my credits and another one for actual USD's incase some service doesn't use credits.
+
+```
+aws budgets create-budget \
+    --account-id ***REMOVED*** \
+    --budget file://aws/json/budget.json \
+    --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json
+```
+
+The contents of ```budget.json```
+
+```
+{
+  "BudgetLimit": {
+      "Amount": "5",
+      "Unit": "USD"
+  },
+  "BudgetName": "CLI Tag Budget",
+  "BudgetType": "COST",
+  "CostFilters": {
+      "TagKeyValue": [
+          "user:Key$value1",
+          "user:Key$value2"
+      ]
+  },
+  "CostTypes": {
+      "IncludeCredit": true,
+      "IncludeDiscount": true,
+      "IncludeOtherSubscription": true,
+      "IncludeRecurring": true,
+      "IncludeRefund": true,
+      "IncludeSubscription": true,
+      "IncludeSupport": true,
+      "IncludeTax": true,
+      "IncludeUpfront": true,
+      "UseBlended": false
+  },
+  "TimePeriod": {
+      "Start": 1477958399,
+      "End": 3706473600
+  },
+  "TimeUnit": "MONTHLY"
+}
+```
+The contents of ```notifications-with-subscribers.json```
+
+```
+[
+  {
+      "Notification": {
+          "ComparisonOperator": "GREATER_THAN",
+          "NotificationType": "ACTUAL",
+          "Threshold": 60,
+          "ThresholdType": "PERCENTAGE"
+      },
+      "Subscribers": [
+          {
+              "Address": "*******",
+              "SubscriptionType": "EMAIL"
+          }
+      ]
+  }
+]
+```
