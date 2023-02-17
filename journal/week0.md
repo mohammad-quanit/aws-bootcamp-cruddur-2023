@@ -165,6 +165,6 @@ The contents of ```notifications-with-subscribers.json```
 ![Budgets](../_docs/assets/Billing-Management-Console.png)
 
 
-Then i've setup alarms billing alams by niavigating into ```Billing Preferences``` in AWS console & checked all the preferences and saved it.
+Then i've setup billing alams by navigating into ```Billing Preferences``` in AWS console & checked all the preferences and saved it.
 
-![Alarms](../_docs/assets/Billing-Management-Console.png)
+![Alarms](../_docs/assets/alarms-pref.png)
