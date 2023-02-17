@@ -41,7 +41,7 @@ Some Notes that can help to design our app solution in a better way.
 Here's the logical and napkin diagram for cruddr application
 
 ![Napkin Diagram](../_docs/assets/logical-diagram.png)
-[Lucidchart Link](https://lucid.app/lucidchart/107716e7-8c87-4e91-9533-eec565b05b51/view) for Napkin Digram
+[Lucidchart Link](https://lucid.app/documents/view/0fa947d2-825d-4024-bcc4-fde549375f9c/view) for Napkin Digram
 
 <br />
 
@@ -168,3 +168,10 @@ The contents of ```notifications-with-subscribers.json```
 Then i've setup billing alams by navigating into ```Billing Preferences``` in AWS console & checked all the preferences and saved it.
 
 ![Alarms](../_docs/assets/alarms-pref.png)
+
+Note: I've also enabled AWS CLI auto prompt using ```aws --cli-auto-prompt```. Thanks for this tip :-)
+
+
+
+
+
