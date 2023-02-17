@@ -40,7 +40,7 @@ Some Notes that can help to design our app solution in a better way.
 
 Here's the logical and napkin diagram for cruddr application
 
-![Napkin Diagram](../_docs/assets/logical-diagram.png)
+![Napkin Diagram](../_docs/assets/napkin-diagram.jpeg)
 [Lucidchart Link](https://lucid.app/documents/view/0fa947d2-825d-4024-bcc4-fde549375f9c/view) for Napkin Digram
 
 <br />
