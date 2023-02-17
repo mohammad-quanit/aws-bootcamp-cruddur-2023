@@ -45,7 +45,7 @@ Here's the logical and napkin diagram for cruddr application
 
 <br />
 
-![Logical Diagram](../_docs/assets/logical-diagram.png)
+![Logical Diagram](../_docs/assets/logical-diagram.jpeg)
 [Lucidchart Link](https://lucid.app/lucidchart/107716e7-8c87-4e91-9533-eec565b05b51/view) for Logical Digram
 
 
@@ -173,5 +173,8 @@ Note: I've also enabled AWS CLI auto prompt using ```aws --cli-auto-prompt```. T
 
 
 
+### Setup EventBridge for SNS Health Checkup (Bonus Work)
 
+I've setup event bridge by navigating into EventBridge and create a rule for looking healthcheck for any kind of SNS topic issues. Below is my eventbridge rule details.
 
+![EventBridge rule](../_docs/assets/Amazon-EventBridge.png)
