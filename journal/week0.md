@@ -177,4 +177,17 @@ Note: I've also enabled AWS CLI auto prompt using ```aws --cli-auto-prompt```. T
 
 I've setup event bridge by navigating into EventBridge and create a rule for looking healthcheck for any kind of SNS topic issues. Below is my eventbridge rule details.
 
-![EventBridge rule](../_docs/assets/Amazon-EventBridge.png)
+![EventBridge rule](../_docs/assets/eventbridge-rule.png)
+
+As you can see in the screenshot, Ive provided the event pattern for SNS topic issues.
+
+```
+{
+  "source": ["aws.health"],
+  "detail-type": ["AWS Health Event"],
+  "detail": {
+    "service": ["SNS"],
+    "eventTypeCategory": ["issue"]
+  }
+}
+```
