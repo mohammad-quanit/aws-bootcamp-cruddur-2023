@@ -122,7 +122,7 @@ I've created 2 budgets one for my credits and another one for actual USD's incas
 
 ```
 aws budgets create-budget \
-    --account-id ***REMOVED*** \
+    --account-id ********** \
     --budget file://aws/json/budget.json \
     --notifications-with-subscribers file://aws/json/notifications-with-subscribers.json
 ```
