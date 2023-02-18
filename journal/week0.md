@@ -211,3 +211,14 @@ As you can see in the screenshot, Ive provided the event pattern for SNS topic i
   }
 }
 ```
+
+After doing all the above assignments, I've used bfg repo cleaner to clean my repo using below steps:
+
+```
+git clone --mirror https://github.com/Mohammad-Quanit/aws-bootcamp-cruddur-2023/ bootcamp-hist
+cd bootcamp-hist
+bfg --replace-text ../passwords.txt
+git reflog expire --expire=now --all && git gc --prune=now --aggressive
+git push --force
+
+```
