@@ -49,6 +49,26 @@ Here's the logical and napkin diagram for cruddr application
 [Lucidchart Link](https://lucid.app/lucidchart/107716e7-8c87-4e91-9533-eec565b05b51/view) for Logical Digram
 
 
+### Security Considerations
+After watching Ashish's Security Considerations video, the things that I've learned and implemented in below steps.
+
+- Cyber Security Goal in Organization to identify & inform business on any technical risks and vulnurabilites that the business may be exposed to.
+
+- Care about cloud security to reduce impact of breach, protect networks, app services in cloud environments, reducing human error for data leaks
+
+- Learned about CloudShell service and enable and disabled some of the regions from console (hands-on)
+
+- Enabled MFA for root user as it has God level access to anthing in AWS account along with IAM user.
+
+- Created Organization for root account setup Organizational Unit. (hands-on)
+
+- Enable AWS auditing service named Cloudtrail to monitor every activity including data, security & residence
+
+- Learned about AWS organization service control policies from [ashish repo](https://github.com/hashishrajan/aws-scp-best-practice-policies/) to secure our organization
+
+- Learned about AWS GuardDuty & AWS Config
+
+
 <br />
 <br />
 
