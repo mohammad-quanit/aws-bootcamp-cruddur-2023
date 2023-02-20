@@ -10,6 +10,7 @@ tasks:
       sudo ./aws/install
       cd $THEIA_WORKSPACE_ROOT
     command: >
+      cd /workspace
       sudo ./aws/install
       cd $THEIA_WORKSPACE_ROOT
 
