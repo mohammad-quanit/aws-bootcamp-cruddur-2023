@@ -8,7 +8,7 @@ After watching your live stream, below are the steps I've done to run BE environ
 
 ### **Run BE Server locally & tested it**
 
-```
+``` bash
 cd backend-flask
 export FRONTEND_URL="*"
 export BACKEND_URL="*"
@@ -32,7 +32,7 @@ Press CTRL+C to quit
 ```
 
 - Gets the response in JSON below
-```
+``` json
 // 20230219235348
 // http://127.0.0.1:4567/api/activities/home
 
@@ -69,7 +69,7 @@ Press CTRL+C to quit
 
 Created a file in backend-flask folder named `Dockerfile` and added below steps
 
-```
+``` dockerfile
 FROM python:3.10-slim-buster
 
 WORKDIR /backend-flask
@@ -87,7 +87,7 @@ CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
 
 ## **Build Dockerfile**
 
-```
+``` bash
 docker build -t  backend-flask ./backend-flask
 ```
 
