@@ -6,7 +6,7 @@ After watching your live stream, below are the steps I've done to run BE environ
 
 <br />
 
-### **Run BE Server locally & tested it**
+### **Run BE Server locally & Dockerized it**
 
 ``` bash
 cd backend-flask
@@ -85,7 +85,7 @@ EXPOSE ${PORT}
 CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
 ```
 
-## **Build Dockerfile**
+### **Build Dockerfile**
 
 ``` bash
 docker build -t  backend-flask ./backend-flask
@@ -93,3 +93,41 @@ docker build -t  backend-flask ./backend-flask
 
 
 <br />
+
+
+### **Run Frontend Server locally & Dockerized it**
+
+
+``` bash
+cd frontend-react-js
+npm install
+npm start
+```
+After running these commands, i've made sure that
+
+- Click the unlock button to make the port public for access
+- Access the BE server using `http://127.0.0.1:3000/`
+- I've created an account and succesfully able to see cruddr application UI
+
+
+### **Add Dockerfile**
+
+Created a file in frontend-react-js folder named `Dockerfile` and added below steps
+
+``` dockerfile
+FROM node:16.18-alpine
+
+ENV PORT=3000
+
+COPY . /frontend-react-js
+WORKDIR /frontend-react-js
+RUN npm install
+EXPOSE ${PORT}
+CMD ["npm", "start"]
+```
+
+Bonus Step: I've used `node:16.18-alpine` image and was able to reduce image size from 1.6gb to 458mb. As Alpine is a lightweight Linux distribution that is designed to be resource-efficient, which makes it an excellent choice for building container images that require a small footprint.
+
+
+
+
