@@ -88,7 +88,7 @@ CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
 ### **Build Dockerfile**
 
 ``` bash
-docker build -t  backend-flask ./backend-flask
+docker build -t backend-flask:1.0 ./backend-flask
 ```
 
 
@@ -128,6 +128,76 @@ CMD ["npm", "start"]
 
 Bonus Step: I've used `node:16.18-alpine` image and was able to reduce image size from 1.6gb to 458mb. As Alpine is a lightweight Linux distribution that is designed to be resource-efficient, which makes it an excellent choice for building container images that require a small footprint.
 
+### **Build Dockerfile**
+
+``` bash
+docker build -t frontend-react-js:1.0 ./frontend-react-js
+```
+
+Uptil now, I was able to create `images` for both of the Dockerfiles i.e one for Backend & other one for Frontend.
 
 
+But rather than creating and managing two seperate docker containers, I've create `docker-compose.yml` to manage both containers simultaneously.
+
+Below is the `docker-compose.yml` code:
+
+``` docker
+version: "3.8"
+services:
+  backend-flask:
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./backend-flask
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./backend-flask:/backend-flask
+  frontend-react-js:
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+
+  dynamodb-local:
+    user: root
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+
+  db:
+    image: postgres:13-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+# the name flag is a hack to change the default prepend folder
+# name when outputting the image names
+networks:
+  internal-network:
+    driver: bridge
+    name: cruddur
+
+volumes:
+  db:
+    driver: local
+```
+
+After creating `docker-compose.yml` file, I was able to up and running both of my containers simultaneously. Below is the screenshot:
+
+
+### Setup AWS DynamoDB Locally
 
