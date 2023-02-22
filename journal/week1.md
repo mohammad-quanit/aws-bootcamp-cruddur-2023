@@ -21,7 +21,7 @@ After running these commands, i've made sure that
 - Click the unlock button to make the port public for access
 - Access the BE server using `http://127.0.0.1:4567/api/activities/home`
 
-```
+``` bash
 gitpod /workspace/aws-bootcamp-cruddur-2023/backend-flask (week-1) $ python3 -m flask run --host=0.0.0.0 --port=4567
  * Debug mode: off
 WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
