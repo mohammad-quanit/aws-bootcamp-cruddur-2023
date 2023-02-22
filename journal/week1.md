@@ -198,6 +198,9 @@ volumes:
 
 After creating `docker-compose.yml` file, I was able to up and running both of my containers simultaneously. Below is the screenshot:
 
+![Docker ps](../_docs/assets/compose-containers.png)
 
-### Setup AWS DynamoDB Locally
+<br />
+
+### **Setup AWS DynamoDB & Postgres Locally**
 
