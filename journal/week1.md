@@ -24,7 +24,8 @@ So after inspecting above screenshot, what I need to do is to change `Base image
 
 ![Docker issue](../_docs/assets/security-fix.png)
 
-I've succesfully managed to reduced some security issues backend dockerfile and completely removed all issues from frontend dockerfile.
+I've succesfully managed to reduce some security issues in backend dockerfile and completely removed all issues from frontend dockerfile.
+
 
 <br />
 
