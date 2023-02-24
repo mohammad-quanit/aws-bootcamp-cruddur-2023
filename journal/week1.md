@@ -423,4 +423,4 @@ frontend-react-js:
     volumes:
       - ./frontend-react-js:/frontend-react-js
 ```
-Just added `healthcheck` option is the specific services to monitor health for both FE & BE.
+Just added `healthcheck` option in the specific services to monitor health for both FE & BE.
