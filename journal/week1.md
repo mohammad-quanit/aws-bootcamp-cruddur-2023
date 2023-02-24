@@ -274,3 +274,141 @@ docker exec -it aws-bootcamp-cruddur-2023-db-1 psql -U postgres
 And i was able to get in to the container along with `PSQL` environment.
 
 ![psql success](../_docs/assets/psql-success.png)
+
+<br />
+<br />
+
+# Stretch Challenges
+
+## Tag & Push both BE and FE Images to DockerHub
+<br />
+
+- Setup docker-hub login via CLI
+- Tagged both docker images with repository using `docker tag` cmd i.e
+``` bash
+docker tag aws-bootcamp-cruddur-2023-frontend-react-js:latest mquanit/aws-bootcamp-cruddur-2023-frontend-react-js:v1.0
+```
+
+``` bash
+docker tag aws-bootcamp-cruddur-2023-backend-flask:latest mquanit/aws-bootcamp-cruddur-2023-backend-flask:v1.0
+```
+
+- Here's my both of the images in dockerhub
+![dockerhub images](../_docs/assets/dockerhub.png)
+
+<br />
+
+## Convert FE & BE Docekrfiles into MultiStage Containers
+<br />
+
+## Dockerfile for Backend:
+``` dockerfile
+FROM python:3.10-slim-buster
+
+WORKDIR /backend-flask
+
+COPY requirements.txt requirements.txt
+RUN pip3 install -r requirements.txt
+
+COPY . .
+
+ENV FLASK_ENV=development
+
+EXPOSE ${PORT}
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
+```
+
+Multistage Dockerfile:
+``` dockerfile
+# Stage 1: Build stage
+FROM python:3.10-slim-buster AS build
+WORKDIR /backend-flask
+COPY requirements.txt requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
+COPY . .
+
+# Stage 2: Run stage
+FROM python:3.10-slim-buster AS run
+WORKDIR /backend-flask
+COPY --from=build /backend-flask /backend-flask
+ENV FLASK_ENV=development
+EXPOSE ${PORT}
+CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0", "--port=4567"]
+```
+
+<br />
+
+## Dockerfile for Frontend:
+
+``` dockerfile
+FROM node:16.18-alpine
+
+ENV PORT=3000
+
+COPY . /frontend-react-js
+WORKDIR /frontend-react-js
+RUN npm install
+EXPOSE ${PORT}
+CMD ["npm", "start"]
+```
+
+Multistage Dockerfile:
+``` dockerfile
+# Build stage
+FROM node:16.18-alpine as build
+WORKDIR /frontend-react-js
+COPY package*.json ./
+RUN npm install
+COPY . .
+RUN npm run build
+
+# Production stage
+FROM node:16.18-alpine
+ENV PORT=3000
+WORKDIR /frontend-react-js
+COPY --from=build /frontend-react-js/build ./build
+COPY --from=build /frontend-react-js/node_modules ./node_modules
+EXPOSE ${PORT}
+CMD ["npm", "start"]
+```
+
+By using multistage builds, we can reduce the size of the final image by only including the necessary artifacts to run the application.
+
+
+## Implemented a healthcheck for both FE & BE services in the V3 Docker compose file
+
+Here's the updated docker compose file:
+
+``` dockerfile
+backend-flask:
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    environment:
+      FRONTEND_URL: "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+      BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./backend-flask
+    ports:
+      - "4567:4567"
+    volumes:
+      - ./backend-flask:/backend-flask
+```
+
+``` dockerfile
+frontend-react-js:
+    healthcheck:
+      test: ["CMD", "curl", "-f", "https://3000-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"]
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    environment:
+      REACT_APP_BACKEND_URL: "https://4567-${GITPOD_WORKSPACE_ID}.${GITPOD_WORKSPACE_CLUSTER_HOST}"
+    build: ./frontend-react-js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend-react-js:/frontend-react-js
+```
+Just added `healthcheck` option is the specific services to monitor health for both FE & BE.
