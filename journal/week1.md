@@ -6,7 +6,7 @@ After watching your live stream, below are the steps I've done to run BE environ
 
 <br />
 
-### **Security Considerations**
+## **Security Considerations**
 After watching Ashish's container security [video](https://www.youtube.com/watch?v=OjZz4D0B-cA&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=26&t=193s), I learned about:
 
 - **Snyk**, A developer security platform to find vulnerabilities, malicious code, secret-leaks in your containers, images or any project source code.
@@ -29,7 +29,7 @@ I've succesfully managed to reduce some security issues in backend dockerfile an
 
 <br />
 
-### **Spending Considerations**
+## **Spending Considerations**
 
 <br />
 
