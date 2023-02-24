@@ -15,6 +15,13 @@ After watching Ashish's container security [video](https://www.youtube.com/watch
 
 - **AWS Inspector**, an AWS vulnerability management service that continuously scans your AWS workloads for software vulnerabilities and unintended network exposure.
 
+
+I've also implemented `Snyk` with my github repository and found out some issues as you see below in screenshot:
+
+So after inspecting above screenshot, what I need to do is to change `Base image` in dockerfile for both of the FE & BE images.
+
+
+
 <br />
 
 ### **Spending Considerations**
