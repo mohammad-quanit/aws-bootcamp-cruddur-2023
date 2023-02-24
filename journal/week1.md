@@ -6,6 +6,23 @@ After watching your live stream, below are the steps I've done to run BE environ
 
 <br />
 
+### **Security Considerations**
+After watching Ashish's container security [video](https://www.youtube.com/watch?v=OjZz4D0B-cA&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=26&t=193s), I learned about:
+
+- **Snyk**, A developer security platform to find vulnerabilities, malicious code, secret-leaks in your containers, images or any project source code.
+
+- **AWS Secrets Manager**, an AWS service to store any kind of secrets/variables that we could use in our AWS infra, like in EC2, ECR, ECS, etc.
+
+- **AWS Inspector**, an AWS vulnerability management service that continuously scans your AWS workloads for software vulnerabilities and unintended network exposure.
+
+<br />
+
+### **Spending Considerations**
+
+<br />
+
+# **Practical Implementaion**
+
 ### **Run BE Server locally & Dockerized it**
 
 ``` bash
@@ -203,4 +220,57 @@ After creating `docker-compose.yml` file, I was able to up and running both of m
 <br />
 
 ### **Setup AWS DynamoDB & Postgres Locally**
+After watching your video of Setting up DynamoDB & PostgreSQL, Ive set up locally as well and performed below steps:
 
+## Create DynamoDB Table named Music
+
+``` bash
+aws dynamodb create-table \
+    --table-name Music \
+    --attribute-definitions \
+        AttributeName=Artist,AttributeType=S \
+        AttributeName=SongTitle,AttributeType=S \
+    --key-schema AttributeName=Artist,KeyType=HASH      
+      AttributeName=SongTitle,KeyType=RANGE \
+    --provisioned-throughput ReadCapacityUnits=1, 
+      WriteCapacityUnits=1 \
+    --table-class STANDARD
+```
+
+## Insert Items in Music Table
+
+``` bash
+aws dynamodb put-item \
+    --table-name Music \
+    --item \
+        '{"Artist": {"S": "No One You Know"}, "SongTitle": {"S": "Call Me Today"}, "AlbumTitle": {"S": "Somewhat Famous"}}' \
+    --return-consumed-capacity TOTAL  
+```
+
+## Fetch Items from Music Table
+
+``` bash
+aws dynamodb scan --table-name Music --query "Items" --endpoint-url http://localhost:8000
+```
+And as a result I got this in terminal
+
+![DynamoDB Scan Result](../_docs/assets/dynamodb-response.png)
+
+
+## Now for PostgreSQL:
+
+After installing all PSQL dependencies, i was getting this known error that usually comes when PSQL client is not up. 
+
+![psql error](../_docs/assets/psql-err.png)
+
+So below are the steps i did for troubleshooting:
+
+In terminal:
+
+``` bash
+docker exec -it aws-bootcamp-cruddur-2023-db-1 psql -U postgres
+```
+
+And i was able to get in to the container along with `PSQL` environment.
+
+![psql success](../_docs/assets/psql-success.png)
