@@ -13,7 +13,7 @@ class Messages:
         'uuid': '4e81c06a-db0f-4281-b4cc-98208537772a' ,
         'display_name': 'Andrew Brown',
         'handle':  'andrewbrown',
-        'message': 'Cloud is fun!',
+        'message': 'Cloud is very fun!',
         'created_at': now.isoformat()
       },
       {
