@@ -389,7 +389,7 @@ By using multistage builds, we can reduce the size of the final image by only in
 
 ## Implemented a healthcheck for both FE & BE services in the V3 Docker compose file
 
-Here's the updated docker compose file:
+Here's the updated sections in services from docker compose file:
 
 ``` dockerfile
 backend-flask:
