@@ -18,9 +18,13 @@ After watching Ashish's container security [video](https://www.youtube.com/watch
 
 I've also implemented `Snyk` with my github repository and found out some issues as you see below in screenshot:
 
+![Docker issue](../_docs/assets/docker-sec-issues.png)
+
 So after inspecting above screenshot, what I need to do is to change `Base image` in dockerfile for both of the FE & BE images.
 
+![Docker issue](../_docs/assets/security-fix.png)
 
+I've succesfully managed to reduced some security issues backend dockerfile and completely removed all issues from frontend dockerfile.
 
 <br />
 
