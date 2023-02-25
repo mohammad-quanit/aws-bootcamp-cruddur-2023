@@ -1,6 +1,6 @@
 # Week 1 — App Containerization
 
-After watching your live stream, below are the steps I've done to run BE environment locally & then containerize python application
+After watching your live stream, Ashish's & Chirag's Video, I've done all the challenges along with the stretched ones below.
 
 <br />
 
