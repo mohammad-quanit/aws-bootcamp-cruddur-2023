@@ -1,7 +1,5 @@
 # Week 1 — App Containerization
 
-## Run locally & containerizing the Backend (Python Flask App)
-
 After watching your live stream, below are the steps I've done to run BE environment locally & then containerize python application
 
 <br />
