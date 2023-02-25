@@ -31,9 +31,18 @@ I've succesfully managed to reduce some security issues in backend dockerfile an
 
 ## **Spending Considerations**
 
+After watching Chirag's [video](https://www.youtube.com/watch?v=OAMHu1NiYoI&list=PLBfufR7vyJJ7k25byhRXJldB5AiwgNnWv&index=27), for CDE spendings, I've learned about:
+
+- Gitpod Workspaces - Credits and hours usage along with its feature plans.
+- Github Codespaces - Github Cloud development Environment
+- Cloud9 IDE - an AWS service for Cloud development environment
+
+I am currently using Gitpod Workspaces, so right now I am monitoring gtipod credits from my `gitpod user settings > Billing`.
+
+
 <br />
 
-# **Practical Implementaion**
+# **Practical Implementaion of Challenges**
 
 ### **Run BE Server locally & Dockerized it**
 
