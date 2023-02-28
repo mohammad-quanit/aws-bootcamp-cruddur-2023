@@ -8,3 +8,8 @@ opentelemetry-instrumentation-flask
 opentelemetry-instrumentation-requests
 
 watchtower
+
+blinker
+rollbar
+
+aws-xray-sdk

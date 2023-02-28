@@ -25,8 +25,15 @@ from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
 
-# Cloudwatch logger deps
-import watchtower, logging
+# Rollbar Deps ---
+import rollbar
+import rollbar.contrib.flask
+from flask import got_request_exception
+
+
+# Cloudwatch logger deps ---
+import watchtower
+import logging
 
 # Configuring Logger to Use CloudWatch
 LOGGER = logging.getLogger(__name__)
@@ -46,6 +53,7 @@ provider.add_span_processor(processor)
 trace.set_tracer_provider(provider)
 tracer = trace.get_tracer(__name__)
 
+
 # Initialize automatic instrumentation with Flask
 app = Flask(__name__)
 FlaskInstrumentor().instrument_app(app)
@@ -62,7 +70,27 @@ cors = CORS(
     methods="OPTIONS,GET,HEAD,POST"
 )
 
-# Log every request to cloudwatch
+rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
+
+## Rollbar init code. You'll need the following to use Rollbar with Flask.
+## This requires the 'blinker' package to be installed
+@app.before_first_request
+def init_rollbar():
+    """init rollbar module"""
+    rollbar.init(
+        # access token
+        rollbar_access_token,
+        # environment name
+        'development',
+        # server root directory, makes tracebacks prettier
+        root=os.path.dirname(os.path.realpath(__file__)),
+        # flask already sets up logging
+        allow_logging_basic_config=False)
+
+    # send exceptions from `app` to rollbar, using flask's signal system.
+    got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
+
+# Log every request by timestamp on cloudwtach logger
 @app.after_request
 def after_request(response):
     timestamp = strftime('[%Y-%b-%d %H:%M]')
@@ -70,10 +98,16 @@ def after_request(response):
                  request.method, request.scheme, request.full_path, response.status)
     return response
 
+# Rollbar testing function
+@app.route('/rollbar/test')
+def rollbar_test():
+    rollbar.report_message("This is custom error", "warning")
+    return "Hello World!"
+
 
 @app.route("/api/message_groups", methods=['GET'])
 def data_message_groups():
-    user_handle = 'andrewbrown'
+    user_handle = 'mquanit'
     model = MessageGroups.run(user_handle=user_handle)
     if model['errors'] is not None:
         return model['errors'], 422
@@ -83,7 +117,7 @@ def data_message_groups():
 
 @app.route("/api/messages/@<string:handle>", methods=['GET'])
 def data_messages(handle):
-    user_sender_handle = 'andrewbrown'
+    user_sender_handle = 'mquanit'
     user_receiver_handle = request.args.get('user_reciever_handle')
 
     model = Messages.run(user_sender_handle=user_sender_handle,
@@ -98,7 +132,7 @@ def data_messages(handle):
 @app.route("/api/messages", methods=['POST', 'OPTIONS'])
 @cross_origin()
 def data_create_message():
-    user_sender_handle = 'andrewbrown'
+    user_sender_handle = 'mquanit'
     user_receiver_handle = request.json['user_receiver_handle']
     message = request.json['message']
 
@@ -146,7 +180,7 @@ def data_search():
 @app.route("/api/activities", methods=['POST', 'OPTIONS'])
 @cross_origin()
 def data_activities():
-    user_handle = 'andrewbrown'
+    user_handle = 'mquanit'
     message = request.json['message']
     ttl = request.json['ttl']
     model = CreateActivity.run(message, user_handle, ttl)
@@ -166,7 +200,7 @@ def data_show_activity(activity_uuid):
 @app.route("/api/activities/<string:activity_uuid>/reply", methods=['POST', 'OPTIONS'])
 @cross_origin()
 def data_activities_reply(activity_uuid):
-    user_handle = 'andrewbrown'
+    user_handle = 'mquanit'
     message = request.json['message']
     model = CreateReply.run(message, user_handle, activity_uuid)
     if model['errors'] is not None:
