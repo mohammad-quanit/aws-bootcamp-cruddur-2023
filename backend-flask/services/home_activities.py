@@ -1,6 +1,11 @@
 from datetime import datetime, timedelta, timezone
+# import logging
+
+# # needs this to enable logging for every module
+# logger = logging.getLogger(__name__)
 class HomeActivities:
-  def run():
+  def run(logger):
+    logger.info("Home activities...")
     now = datetime.now(timezone.utc).astimezone()
     results = [{
       'uuid': '68f126b0-1ceb-4a33-88be-d90fa7109eee',
