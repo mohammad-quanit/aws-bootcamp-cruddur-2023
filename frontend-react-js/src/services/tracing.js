@@ -6,7 +6,7 @@ import { Resource }  from '@opentelemetry/resources';
 import { SemanticResourceAttributes } from '@opentelemetry/semantic-conventions';
 
 const exporter = new OTLPTraceExporter({
-  url: 'https://api.honeycomb.io/v1/trace',
+  url: 'https://api.honeycomb.io/v1/traces',
 });
 
 const provider = new WebTracerProvider({
