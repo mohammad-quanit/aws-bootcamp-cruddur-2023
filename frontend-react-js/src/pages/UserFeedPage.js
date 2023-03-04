@@ -18,7 +18,7 @@ export default function UserFeedPage() {
 
   const params = useParams();
   const title = `@${params.handle}`;
-
+  console.log(title)
   const loadData = async () => {
     try {
       const backend_url = `${process.env.REACT_APP_BACKEND_URL}/api/activities/${title}`
