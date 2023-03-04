@@ -9,21 +9,20 @@ import RecoverPage from './pages/RecoverPage';
 import MessageGroupsPage from './pages/MessageGroupsPage';
 import MessageGroupPage from './pages/MessageGroupPage';
 import ConfirmationPage from './pages/ConfirmationPage';
-import './services/tracing'
-
 import React from 'react';
 
 import {
   createBrowserRouter,
   RouterProvider
 } from "react-router-dom";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeFeedPage />
   },
   {
-    path: "/@:handle",
+    path: "/:handle",
     element: <UserFeedPage />
   },
   {
@@ -31,7 +30,7 @@ const router = createBrowserRouter([
     element: <MessageGroupsPage />
   },
   {
-    path: "/messages/@:handle",
+    path: "/messages/:handle",
     element: <MessageGroupPage />
   },
   {
