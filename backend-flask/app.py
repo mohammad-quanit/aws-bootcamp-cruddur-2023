@@ -24,6 +24,10 @@ from opentelemetry.exporter.otlp.proto.http.trace_exporter import OTLPSpanExport
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
+# AWS xray-sdk deps ----
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
 
 # Rollbar Deps ---
 import rollbar
@@ -42,8 +46,8 @@ console_handler = logging.StreamHandler()
 cw_handler = watchtower.CloudWatchLogHandler(log_group='cruddur')
 LOGGER.addHandler(console_handler)
 LOGGER.addHandler(cw_handler)
-
 LOGGER.info("test log...")
+
 
 
 # Initialize tracing and an exporter that can send data to Honeycomb
@@ -69,6 +73,13 @@ cors = CORS(
     allow_headers="content-type,if-modified-since",
     methods="OPTIONS,GET,HEAD,POST"
 )
+
+
+# Initializing xray recorder
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
+XRayMiddleware(app, xray_recorder)
+
 
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
 
@@ -146,6 +157,7 @@ def data_create_message():
 
 
 @app.route("/api/activities/home", methods=['GET'])
+@xray_recorder.capture('home.capture')
 def data_home():
     data = HomeActivities.run(logger=LOGGER)
     return data, 200
@@ -158,6 +170,7 @@ def data_notifications():
 
 
 @app.route("/api/activities/@<string:handle>", methods=['GET'])
+@xray_recorder.capture('user_activities.capture')
 def data_handle(handle):
     model = UserActivities.run(handle)
     if model['errors'] is not None:
