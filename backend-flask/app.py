@@ -49,7 +49,6 @@ LOGGER.addHandler(cw_handler)
 LOGGER.info("test log...")
 
 
-
 # Initialize tracing and an exporter that can send data to Honeycomb
 provider = TracerProvider()
 processor = BatchSpanProcessor(OTLPSpanExporter())
@@ -83,8 +82,10 @@ XRayMiddleware(app, xray_recorder)
 
 rollbar_access_token = os.getenv('ROLLBAR_ACCESS_TOKEN')
 
-## Rollbar init code. You'll need the following to use Rollbar with Flask.
-## This requires the 'blinker' package to be installed
+# Rollbar init code. You'll need the following to use Rollbar with Flask.
+# This requires the 'blinker' package to be installed
+
+
 @app.before_first_request
 def init_rollbar():
     """init rollbar module"""
@@ -102,6 +103,8 @@ def init_rollbar():
     got_request_exception.connect(rollbar.contrib.flask.report_exception, app)
 
 # Log every request by timestamp on cloudwtach logger
+
+
 @app.after_request
 def after_request(response):
     timestamp = strftime('[%Y-%b-%d %H:%M]')
@@ -110,6 +113,8 @@ def after_request(response):
     return response
 
 # Rollbar testing function
+
+
 @app.route('/rollbar/test')
 def rollbar_test():
     rollbar.report_message("This is custom error", "warning")

@@ -9,7 +9,8 @@ After watching your live stream, Ashish's & Chirag's Video, I've the challenges 
 After digging up on honeycomb, I've implemented honeycomb tracing on python and react app for monitoring events and traces.
 
 <br />
-## HoneyComb Python Implementation
+
+# **HoneyComb Python Implementation**
 
 ``` python
 ### app.py
@@ -88,7 +89,7 @@ class NotificationsActivities:
 
 <br />
 
-## HoneyComb React Implementation
+## **HoneyComb React Implementation**
 
 ``` javascript
 // services/tracing.js
@@ -197,7 +198,7 @@ export default function NotificationsFeedPage() {
 
 <br />
 
-### **Configure Rollbar on Python**
+# **Configure Rollbar on Python**
 
 ``` python
 # Import Rollbar Deps ---
@@ -237,7 +238,7 @@ def rollbar_test():
 
 <br />
 
-### **Configure Cloudwatch on Python**
+# **Configure Cloudwatch on Python**
 
 ``` python
 # Cloudwatch logger deps ---
@@ -265,3 +266,97 @@ class HomeActivities:
 
 ![Cloudwatch events](../_docs/assets/cloudwatch.png)
 
+
+# **Configure XRAY on Python**
+
+``` python
+# AWS xray-sdk deps ----
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
+
+
+# Initializing xray recorder
+xray_url = os.getenv("AWS_XRAY_URL")
+xray_recorder.configure(service='backend-flask', dynamic_naming=xray_url)
+XRayMiddleware(app, xray_recorder)
+
+# app.py
+@app.route("/api/activities/@<string:handle>", methods=['GET'])
+
+# capture xray segment
+@xray_recorder.capture('user_activities.capture')
+def data_handle(handle):
+    model = UserActivities.run(handle)
+    if model['errors'] is not None:
+        return model['errors'], 422
+    else:
+        return model['data'], 200
+
+
+# user_activities.py
+try:
+            with xray_recorder.capture('user_activity_time') as subsegment_1:
+                model = {
+                    'errors': None,
+                    'data': None
+                }
+
+                now = datetime.now(timezone.utc).astimezone()
+
+                dict = {
+                    "now": now.isoformat(),
+                    "user_handle": user_handle,
+                }
+
+                # Add metadata or annotation to sub segment-1 if necessary
+                subsegment_1.put_metadata(
+                    'user_metadata_key', dict, 'namespace')
+                subsegment_1.put_annotation('time_now', now.isoformat())
+
+                if user_handle == None or len(user_handle) < 1:
+                    model['errors'] = ['blank_user_handle']
+                else:
+                    now = datetime.now()
+                    results = [{
+                        'uuid': '248959df-3079-4947-b847-9e0892d1bab4',
+                        'handle':  'M Quanit',
+                        'message': 'Cloud is fun!',
+                        'created_at': (now - timedelta(days=1)).isoformat(),
+                        'expires_at': (now + timedelta(days=31)).isoformat()
+                    }]
+                    model['data'] = results
+
+            # Add metadata or annotation to subsegment 2 if necessary
+            sub_segment = xray_recorder.begin_subsegment(
+                "user_data.subsegment")
+            sub_segment.put_annotation('user.result.length', len(results))
+
+        finally:
+            xray_recorder.end_subsegment()
+        return model
+
+```
+
+![XRay events](../_docs/assets/xray-segment.png)
+
+<br />
+
+# Observability Security Considerations
+
+After watching Ashish's video of Security consideration in observability, Here are some security considerations to keep in mind when implementing observability:
+
+1. Data privacy: Make sure that sensitive data is not exposed through your observability infrastructure.
+
+2. Access control: Limit access to your observability infrastructure to only those who need it.
+
+3. Authentication and authorization: Use strong authentication and authorization mechanisms to control access to your observability infrastructure.
+
+4. Encryption: Make sure that all data transmitted over the network is encrypted to prevent eavesdropping and tampering.
+
+5. Monitoring and alerting: Monitor your observability infrastructure for signs of unauthorized access or suspicious activity. Set up alerts to notify you of potential security incidents.
+
+6. Secure coding practices: Follow secure coding practices when developing your instrumentation and observability tools.
+
+7. Incident response: Have an incident response plan in place in case of a security breach.
+
+By keeping these security considerations in mind, you can help ensure that your observability infrastructure is both effective and secure.
