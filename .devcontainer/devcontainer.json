@@ -26,6 +26,14 @@
 				"workbench.colorTheme": "Default Dark+ Experimental"
 			}
 		}
+	},
+	"portsAttributes": {
+		"4567": {
+			"label": "4567 - BE"
+		},
+		"3000": {
+			"label": "3000 - FE"
+		}
 	}
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	// "features": {},
